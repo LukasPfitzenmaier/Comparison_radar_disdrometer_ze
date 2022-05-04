@@ -22,19 +22,26 @@ X. References
 4. Forward simulate the by the Disdrometer measured droplet size disdribution to reflectivity
 - Forward simulation is done using T-Matrix by J. Leinonen (https://github.com/jleinonen/pytmatrix) 
 6. Identification of time periodes to calculate the reflectivity off-sets
-- A period for comparisson is identified if within 60 Minutes there is only a rain gap of 10 minutes. A data point is considered valied if the mean rain rate at least 0.1 mm/h and if more that 60 drops pert minute have been counted.
+- A period for comparisson is identified if 
+    - if it last minimum of 10 minutes
+    - if the mean rain rate is not lower than 0.1 mm/h 
+    - if more that 60 drops pert minute have been counted by the disdrometer.
+    - if the measured reflectivity of the radar is not higher then 15 dBZ
+    - if within a 30 minute time slot the rain measured by the disdrometer shows a gap of 4 minutes or less.
 7. Calculation of the reflectivity off-sets based on the difference of the mean of the radar and the Disdrometer reflectivity PDFs.
 8. Finally the results are plotted and the results are saved in a NetCDF file.
 
 ## 2. How to call the program ##
 
-The program can be called using the following comands: in the comand line one has to add:
+The program can be called using the following comands:
+./20220420_Comparison_radar_disdrometer_ze.py -s site -y year -m month -d day 
+One can also call the program in an editor and set the site and the defult option to your preferences. Processing several days is also possible. To do so set the "-db" option to the anount of days you want to calculate the offsets back
 
 Short name of the site (usally 3 leters long), start date (end date of the processing) and number of days to process (going backwards).
 - "site" : observation site for Radar and Disdrometer: e.g. jue, nor, mag
-- "year" : year of the observation
-- "month": month of the observation
-- "day"  : day of the observation
+- "year" : year of the observation, usually 4 digits, e.g. yyyy
+- "month": month of the observation, usually 2 digits, e.g. mm
+- "day"  : day of the observation, usually 2 digits, e.g. dd
 - "-db"  : How many days before chosen date shall be processed
 - "-op", : --output_path, default="/work/disdro_output/"
 - "-edp", "--enable_diagnostic_plots, "Additional plots will be saved for insights into processing.", default=False
